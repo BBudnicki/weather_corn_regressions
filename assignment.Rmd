@@ -28,9 +28,8 @@ library(raster)
 
 ```
 
-## Weather Data Analysis
-
-### Load the PRISM daily maximum temperatures
+# Setup
+## Load the PRISM daily maximum temperatures
 
 ```{r tmax data}
 
@@ -161,7 +160,7 @@ cornyields <- tibble(cornyields)
 
 Extract Winneshiek County corn yields, fit a linear time trend, make a plot. Is there a significant time trend?
 
-```{r}
+```{r, fig.width = 8, fig.height= 8, res=600}
 
 
 winneYield = cornyields %>%
@@ -182,7 +181,7 @@ Corn yield has consistently increased year over year. This agrees with my prior 
 
 Fit a quadratic time trend (i.e., year + year^2) and make a plot. Is there evidence for slowing yield growth? 
 
-```{r}
+```{r, fig.width = 9, fig.height= 8, res=600}
 winneYieldLin<- lm(yield ~ year, winneYield)
 summary(winneYieldLin)
 winneYield$lin <- winneYieldLin$fitted.values
@@ -195,8 +194,8 @@ winneYield$quad <- winneYieldQuad$fitted.values
 
 ggplot(winneYield) +
   geom_point(mapping = aes(x = year, y = yield), alpha = 0.4, colour = "black") +
-  geom_line(mapping = aes(x = year, y = quad, col='Quadratic Time Model')) +
-  geom_line(mapping = aes(x = year, y = lin, col='Linear Time Model')) +
+  geom_line(mapping = aes(x = year, y = quad, col='Quadratic Time Model'), size=1) +
+  geom_line(mapping = aes(x = year, y = lin, col='Linear Time Model'), size=1) +
   theme_bw() +
   labs(x = "Year", y = "Yield (bsh/ac)", title= "Yield over time", subtitle="Winneshiek, IA")
 
@@ -232,26 +231,26 @@ winneYieldYearTempQuad<- lm(yield ~ year + yearSq, winneYieldTemp)
 winneYieldTemp$yearTempQuad <- winneYieldYearTempQuad$fitted.values
 
 ```
-```{r}
+```{r, fig.width = 8, fig.height= 8 , res=600}
 grid.arrange(
 
 ggplot(winneYieldTemp) +
-  geom_point(mapping = aes(x = meanTmax, y = yield), alpha = 0.4, colour = "black") +
-  geom_line(mapping = aes(x = meanTmax, y = tempQuad, col="Quadratic Temp Model")) +
-  geom_line(mapping = aes(x = meanTmax, y = tempLin, col="Linear Temp Model")) +
-  geom_line(mapping = aes(x = meanTmax, y = yearLin, col="Linear Temp Year Model")) +
-  geom_line(mapping = aes(x = meanTmax, y = yearTempQuad, col="Quadratic Temp Year Mode")) +
+  geom_point(mapping = aes(x = meanTmax, y = yield), alpha = 1, colour = "black") +
+  geom_line(mapping = aes(x = meanTmax, y = tempQuad, col="Quadratic Temp Model"), size=1) +
+  geom_line(mapping = aes(x = meanTmax, y = tempLin, col="Linear Temp Model"), size=1) +
+  geom_line(mapping = aes(x = meanTmax, y = yearLin, col="Linear Temp Year Model"), size=1) +
+  geom_line(mapping = aes(x = meanTmax, y = yearTempQuad, col="Quadratic Temp Year Model"), size=1) +
   theme_bw() +
   labs(x = "T Max (°C)", y = "Yield (bsh/ac)", title= "Yield over T Max", subtitle="Winneshiek, IA")
 
 ,
 
 ggplot(winneYieldTemp) +
-  geom_point(mapping = aes(x = year, y = yield), alpha = 0.4, colour = "black") +
-  geom_line(mapping = aes(x = year, y = tempQuad, col="Quadratic Temp Model")) +
-  geom_line(mapping = aes(x = year, y = tempLin, col="Linear Temp Model")) +
-  geom_line(mapping = aes(x = year, y = yearLin, col="Linear Temp Year Model")) +
-  geom_line(mapping = aes(x = year, y = yearTempQuad, col="Quadratic Temp Year Model")) +
+  geom_point(mapping = aes(x = year, y = yield), alpha = 1, colour = "black") +
+  geom_line(mapping = aes(x = year, y = tempQuad, col="Quadratic Temp Model"), size=1) +
+  geom_line(mapping = aes(x = year, y = tempLin, col="Linear Temp Model"), size=1) +
+  geom_line(mapping = aes(x = year, y = yearLin, col="Linear Temp Year Model"), size=1) +
+  geom_line(mapping = aes(x = year, y = yearTempQuad, col="Quadratic Temp Year Model"), size=1) +
   theme_bw() +
   labs(x = "Year", y = "Yield (bsh/ac)", title= "Yield over time", subtitle="Winneshiek, IA")
 
@@ -284,7 +283,7 @@ iowa2018 = iowa %>%
 ```
 
 
-```{r}
+```{r, fig.width = 8, fig.height= 8, res=600}
 iowa2018YieldTempLin<- lm(yield ~ meanTmax, iowa2018)
 summary(iowa2018YieldTempLin)
 iowa2018$lin <- iowa2018YieldTempLin$fitted.values
@@ -295,8 +294,8 @@ iowa2018$quad <- iowa2018YieldTempQuad$fitted.values
 
 ggplot(iowa2018) +
   geom_point(mapping = aes(x = meanTmax, y = yield), alpha = 0.4, colour = "black") +
-  geom_line(mapping = aes(x = meanTmax, y = quad, colour="Quadratic")) +
-  geom_line(mapping = aes(x = meanTmax, y = lin, colour="Linear")) +
+  geom_line(mapping = aes(x = meanTmax, y = quad, colour="Quadratic"), size=2) +
+  geom_line(mapping = aes(x = meanTmax, y = lin, colour="Linear"), size=2) +
   theme_bw() +
   labs(x = "T Max (°C)", y = "Yield (bsh/ac)", title= "Yield over T Max", subtitle="Iowa 2018")
 
@@ -336,34 +335,34 @@ iowa$m_combined <- iowa_Combined$fitted.values
 ```
 
 
-```{r, fig.width = 14}
+```{r, fig.width = 8, fig.height= 12, res=600}
 grid.arrange(
 top = "Single Factor Models",
 layout_matrix = rbind(c(1, 2, 3),c(4, 4, 4)),
 
 ggplot(iowa) +
   geom_point(mapping = aes(x = yield, y = m_tempSq), alpha = 0.2) +
-  geom_line(mapping = aes(x = yield, y = yield), linetype = "dashed") +
+  geom_line(mapping = aes(x = yield, y = yield), linetype = "dashed", size=1.5) +
   theme_bw() +
-  labs(x = "Actual Yield", y = "Fited Yield", title= "Quadratic Temp Model VS Actual", subtitle="Iowa All Years")
+  labs(x = "Actual Yield", y = "Fitted Yield", title= "Quadratic Temp Model VS Actual",)
 ,
 ggplot(iowa) +
   geom_point(mapping = aes(x = yield, y = m_yearSq), alpha = 0.2) + 
-  geom_line(mapping = aes(x = yield, y = yield), linetype = "dashed") +
+  geom_line(mapping = aes(x = yield, y = yield), linetype = "dashed", size=1.5) +
   theme_bw() +
-  labs(x = "Actual Yield", y = "Fited Yield", title= "Quadratic Year Model VS Actual", subtitle="Iowa All Years")
+  labs(x = "Actual Yield", y = "Fitted Yield", title= "Quadratic Year Model VS Actual")
 ,
 ggplot(iowa) +
   geom_point(mapping = aes(x = yield, y = m_county), alpha = 0.2) + 
-  geom_line(mapping = aes(x = yield, y = yield), linetype = "dashed") +
+  geom_line(mapping = aes(x = yield, y = yield), linetype = "dashed", size=1.5) +
   theme_bw() +
-  labs(x = "Actual Yield", y = "Fited Yield", title= "County Model VS Actual", subtitle="Iowa All Years")
+  labs(x = "Actual Yield", y = "Fitted Yield", title= "County Model VS Actual")
 ,
 ggplot(iowa) +
   geom_point(mapping = aes(x = yield, y = m_combined), alpha = 0.2) + 
-  geom_line(mapping = aes(x = yield, y = yield), linetype = "dashed") +
+  geom_line(mapping = aes(x = yield, y = yield), linetype = "dashed", size=1.5) +
   theme_bw() +
-  labs(x = "Actual Yield", y = "Fited Yield", title= "Combined Model VS Actual", subtitle="Iowa All Years")
+  labs(x = "Actual Yield", y = "Fitted Yield", title= "Combined Model VS Actual")
 
 )
 
@@ -390,7 +389,7 @@ iowa$tempQuadYearQuadCountyLin <- iowa_TempQuadYearQuadCountyLinModel$fitted.val
 
 ```
 
-```{r , fig.width = 14}
+```{r, fig.width = 10, fig.height= 8}
 
 # ggplot(iowa) +
 #   geom_point(mapping = aes(x = meanTmax, y = yield), alpha = 0.4, colour = "black") +
@@ -423,29 +422,29 @@ iowa$tempQuadYearQuadCountyLin <- iowa_TempQuadYearQuadCountyLinModel$fitted.val
 # 
 
 ```
-```{r, fig.width = 14}
+```{r, fig.width = 10, fig.height= 16, res=600}
 grid.arrange(
 top = "Progressively more complex models",
 
 ggplot(iowa) +
   geom_point(mapping = aes(x = yield, y = tempQuad), alpha = 0.2) +
-  geom_line(mapping = aes(x = yield, y = yield), linetype = "dashed") +
+  geom_line(mapping = aes(x = yield, y = yield), linetype = "dashed", size=2) +
   theme_bw() +
-  labs(x = "Actual Yield", y = "Fited Yield", title= "Quadratic Temp Model VS Actual", subtitle="Iowa All Years")
+  labs(x = "Actual Yield", y = "Fitted Yield", title= "Quadratic Temp Model VS Actual", subtitle="Iowa All Years")
 ,
 ggplot(iowa) +
   geom_point(mapping = aes(x = yield, y = tempQuadCounty), alpha = 0.2) + 
-  geom_line(mapping = aes(x = yield, y = yield), linetype = "dashed") +
+  geom_line(mapping = aes(x = yield, y = yield), linetype = "dashed", size=2) +
 
     theme_bw() +
-  labs(x = "Actual Yield", y = "Fited Yield", title= "Quadratic Temp, County Model VS Actual", subtitle="Iowa All Years")
+  labs(x = "Actual Yield", y = "Fitted Yield", title= "Quadratic Temp, County Model VS Actual", subtitle="Iowa All Years")
 ,
 ggplot(iowa) +
   geom_point(mapping = aes(x = yield, y = tempQuadYearQuadCountyLin), alpha = 0.2) + 
-  geom_line(mapping = aes(x = yield, y = yield), linetype = "dashed") +
+  geom_line(mapping = aes(x = yield, y = yield), linetype = "dashed", size=2) +
 
     theme_bw() +
-  labs(x = "Actual Yield", y = "Fited Yield", title= "Quadratic Temp, Quadratic Year, County Model VS Actual", subtitle="Iowa All Years")
+  labs(x = "Actual Yield", y = "Fitted Yield", title= "Quadratic Temp, Quadratic Year, County Model VS Actual", subtitle="Iowa All Years")
 
 )
 ```
@@ -502,22 +501,22 @@ soy$m_combined <- soyCombinedModel$fitted.values
 
 ```{r}
 plot_temp = ggplot(soy) +
-  geom_point(mapping = aes(x = meanTmax, y = yield), alpha = 0.4, colour = "black") +
-  geom_line(mapping = aes(x = meanTmax, y = m_tmax_quad, colour="Quadratic")) +
-  geom_line(mapping = aes(x = meanTmax, y = m_tmax_lin, colour="Linear")) +
+  geom_point(mapping = aes(x = meanTmax, y = yield), alpha = 0.2, colour = "black") +
+  geom_line(mapping = aes(x = meanTmax, y = m_tmax_quad, colour="Quadratic"), size=2) +
+  geom_line(mapping = aes(x = meanTmax, y = m_tmax_lin, colour="Linear"), size=2) +
   theme_bw() +
   labs(x = "T Max (°C)", y = "Yield (bsh/ac)", title= "Yield over T Max")
 
 plot_year = ggplot(soy) +
-  geom_point(mapping = aes(x = year, y = yield), alpha = 0.4, colour = "black") +
-  geom_line(mapping = aes(x = year, y = m_year_quad, colour="Quadratic")) +
-  geom_line(mapping = aes(x = year, y = m_year_lin, colour="Linear")) +
+  geom_point(mapping = aes(x = year, y = yield), alpha = 0.2, colour = "black") +
+  geom_line(mapping = aes(x = year, y = m_year_quad, colour="Quadratic"), size=2) +
+  geom_line(mapping = aes(x = year, y = m_year_lin, colour="Linear"), size=2) +
   theme_bw() +
   labs(x = "Year", y = "Yield (bsh/ac)", title= "Yield over Year")
 
 plot_county = ggplot(soy) +
-  geom_point(mapping = aes(x = county_name, y = yield), alpha = 0.4, colour = "black") +
-  geom_line(mapping = aes(x = county_name, y = m_county)) +
+  geom_point(mapping = aes(x = county_name, y = yield), alpha = 0.2, colour = "black") +
+  geom_line(mapping = aes(x = county_name, y = m_county), size=2) +
   theme_bw() +
   labs(x = "County", y = "Yield (bsh/ac)", title= "Yield over County")
 
@@ -526,19 +525,19 @@ plot_county = ggplot(soy) +
 
 plot_model_temp = ggplot(soy) +
   geom_point(mapping = aes(x = yield, y = m_tmax_quad), alpha = 0.2) +
-  geom_line(mapping = aes(x = yield, y = yield), linetype = "dashed") +
+  geom_line(mapping = aes(x = yield, y = yield), linetype = "dashed", size=2) +
   theme_bw() +
   labs(x = "Actual Yield", y = "Fitted Yield", title= "Quadratic Temp Model", subtitle="Iowa All Years")
 
 plot_model_year = ggplot(soy) +
   geom_point(mapping = aes(x = yield, y = m_year_quad), alpha = 0.2) + 
-  geom_line(mapping = aes(x = yield, y = yield), linetype = "dashed") +
+  geom_line(mapping = aes(x = yield, y = yield), linetype = "dashed", size=2) +
   theme_bw() +
   labs(x = "Actual Yield", y = "Fitted Yield", title= "Quadratic Year Model", subtitle="Iowa All Years")
 
 plot_model_county = ggplot(soy) +
   geom_point(mapping = aes(x = yield, y = m_county), alpha = 0.2) + 
-  geom_line(mapping = aes(x = yield, y = yield), linetype = "dashed") +
+  geom_line(mapping = aes(x = yield, y = yield), linetype = "dashed", size=2) +
   theme_bw() +
   labs(x = "Actual Yield", y = "Fitted Yield", title= "County Model", subtitle="Iowa All Years")
 
@@ -546,14 +545,14 @@ plot_model_county = ggplot(soy) +
 
 ```{r}
 plot_model_combined = ggplot(soy) +
-  geom_point(mapping = aes(x = yield, y = m_combined), alpha = 0.2) + 
+  geom_point(mapping = aes(x = yield, y = m_combined), alpha = 0.2, size=2) + 
   geom_line(mapping = aes(x = yield, y = yield), linetype = "dashed") +
   theme_bw() +
-  labs(x = "Actual Yield", y = "Fited Yield", title= "Combined Model VS Actual", subtitle="Iowa All Years")
+  labs(x = "Actual Yield", y = "Fitted Yield", title= "Combined Model VS Actual", subtitle="Iowa All Years")
 
 ```
 
-```{r,fig.width = 14}
+```{r,fig.width = 10, fig.height= 8, res=600}
 
 
 grid.arrange(
@@ -583,7 +582,7 @@ counties = us_counties(map_date = NULL, resolution = c("low", "high"), states = 
 counties$name = tolower(counties$name)
 
 ```
-```{r}
+```{r fig.width = 10, fig.height= 8}
 selectYear = 2018
 
 cornTime = cornyields %>% 
@@ -616,11 +615,11 @@ mapview(mapSoy, alpha.regions = 0.5, aplha = 1, zcol="yield",
 
 ```
 
-### Question 7 Bonus 
+## Question 7 Bonus 
 
 Map trends in corn yields by county across Iowa. Interpret your map.
 
-```{r}
+```{r fig.width = 10, fig.height= 8}
 brks = classInt::classIntervals(
   1:100,
   style = 'fixed',
