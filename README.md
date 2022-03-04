@@ -1,5 +1,6 @@
-# weather_corn_regressions
 
-[https://github.com/BBudnicki/weather_corn_regressions](https://github.com/BBudnicki/weather_corn_regressions)
+# Links
 
-[Output Page]()
+[Git Hub Repo](https://github.com/BBudnicki/weather_corn_regressions)
+
+[Git Hub Pages](https://bbudnicki.github.io/weather_corn_regressions/)

@@ -656,6 +656,6 @@ mapview(mapSoyLate, alpha.regions = 0.5, aplha = 1, zcol="yield",
 
 # Links
 
-[https://github.com/BBudnicki/weather_corn_regressions](https://github.com/BBudnicki/weather_corn_regressions)
+[Git Hub Repo](https://github.com/BBudnicki/weather_corn_regressions)
 
-[Output Page]()
+[Git Hub Pages](https://bbudnicki.github.io/weather_corn_regressions/)
