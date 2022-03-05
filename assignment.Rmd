@@ -24,8 +24,6 @@ library(USAboundaries)
 library(USAboundariesData)
 library(leaflet.extras2)
 library(raster)
-
-
 ```
 
 # Setup
@@ -175,7 +173,7 @@ ggplot(winneYield, mapping = aes(x = year, y = yield)) +
 
 ```
 
-Corn yield has consistently increased year over year. This agrees with my prior knowledge from working at Land O'Lakes. Improvements in farming practices and seed genetics have been driving this trend. Although adoption of these changes varies from farm to farm, at the aggregated county level this affect can be clearly seen in the data.
+Corn yield has consistently increased year over year. For the linear model, with every increasing year we would expect an increase in yield of 2.457 bushels / acre. This agrees with my prior knowledge from working at Land O'Lakes. Improvements in farming practices and seed genetics have been driving this trend. Although adoption of these changes varies from farm to farm, at the aggregated county level this affect can be clearly seen in the data. 
 
 
 ### Question 1b
@@ -204,7 +202,7 @@ ggplot(winneYield) +
 
 ### Interpretation
 
-There is no evidence of slowing corn yield growth in Winneshiek County, IA. The slope of the quadratic time model is relatively constant over time, if anything there is slight acceleration.
+There is no evidence of slowing corn yield growth in Winneshiek County, IA. The slope of the quadratic time model is relatively constant over time, if anything there is slight acceleration. 
 
 
 ## Question 2 -- Time Series
@@ -270,7 +268,7 @@ summary(winneYieldYearTempQuad)
 
 ```
 
-The yield peaks at a mean summer temperature max of 27 Celsius according to the quadratic temp model.This follows intuition that plants respond well to increasing temperature, if it was freezing they would not grow. However, increased temperature only increases yield up to 27 degrees than than gradually drops. The quadratic temperature model has significantly greater predictive performance than the linear. However with such a significant year over year affect, the Quadratic Temp Year model has the best performance. We can see that Year Squared has a significantly bigger affect on Yield than the Temperature does as shown by the p-values of the coefficents.
+The yield peaks at a mean summer temperature max of 27 Celsius according to the quadratic temp model.This follows intuition that plants respond well to increasing temperature, if it was freezing they would not grow. However, increased temperature only increases yield up to 27 degrees than than gradually drops. The quadratic temperature model has significantly greater predictive performance than the linear. However with such a significant year over year affect, the Quadratic Temp Year model has the best performance. We can see that Year Squared has a significantly bigger affect on Yield than the Temperature does as shown by the p-values of the coefficients. By incorporating year quared & mean temperture max squared, we account for 81% of the variation observed in yield (Adjusted R-squared).
 
 
 
@@ -403,7 +401,11 @@ summary(iowa_Combined)
 
 
 
+
+
 ```{r}
+
+
 # Progessive models - old code
 # iowa_TempQuadModel = lm(yield ~ meanTmax + meanTmaxSq, iowa)
 # #summary(iowa_TempQuadModel)
